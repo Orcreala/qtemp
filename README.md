@@ -1,43 +1,62 @@
 # qtemp 集成式工具包
 
+[![Latest Stable Version](https://poser.pugx.org/moyer/qtemp/v)](https://packagist.org/packages/moyer/qtemp)
+[![Total Downloads](https://poser.pugx.org/moyer/qtemp/downloads)](https://packagist.org/packages/moyer/qtemp)
+[![License](https://poser.pugx.org/moyer/qtemp/license)](https://packagist.org/packages/moyer/qtemp)
+[![PHP Version](https://poser.pugx.org/moyer/qtemp/require/php)](https://packagist.org/packages/moyer/qtemp)
+
 qtemp 是一个为 ThinkCMF 框架设计的集成式工具包，提供了丰富的 UI 控件、表单组件和 Excel 处理功能，帮助开发者快速构建后台管理界面。
-总的说，我还想做一个无手动编码的后台系统，但一个足够集成化的模板库是前置条件
+
+总的说，我还想做一个无手动编码的后台系统，但一个足够集成化的模板库是前置条件。
+
+## 安装
+
+### Composer 安装（推荐）
+
+```bash
+composer require moyer/qtemp
+```
+
+### 版本要求
+
+- PHP >= 8.0
+- ThinkCMF >= 8.0
 
 ## 目录结构
 
 ```
-app/qtemp/
-├── Qtemp.php              # 核心基类，提供魔术方法支持
-├── manifest.json          # 包配置文件
-├── header.php             # 公共头文件
-├── control/               # UI 控件
-│   ├── Control.php        # 控件基类
-│   ├── Button.php         # 按钮控件
-│   ├── BtnAction.php      # 动作按钮
-│   ├── BtnExcelToData.php # Excel 导入按钮
-│   ├── BtnSubmit.php      # 提交按钮
-│   ├── BtnTarget.php      # 目标按钮
-│   ├── NavTab.php         # 导航标签
-│   └── TableMin.php       # 迷你表格
-├── form/                  # 表单控件
-│   ├── FormControl.php    # 表单基类
-│   ├── FormValidator.php  # 表单验证器
-│   ├── TextInput.php      # 文本输入框
-│   ├── Textarea.php       # 多行文本框
-│   ├── Label.php          # 标签
-│   ├── SelectControl.php  # 选择框基类
-│   ├── SelectOne.php      # 单选下拉框
-│   ├── SelectMany.php     # 多选下拉框
-│   ├── ImageUpload.php    # 图片上传
-│   ├── ImageUploadMulti.php # 多图片上传
-│   ├── FileUpload.php     # 文件上传
-│   ├── FileUploadMulti.php  # 多文件上传
-│   └── BaiduEditor.php    # 百度编辑器
-├── excel/                 # Excel 处理
-│   ├── ExcelExport.php    # Excel 导出
-└── trait/                 # 特性
-    ├── AnyToGet.php       # 数据获取特性
-    └── ArrayValue.php     # 数组值处理特性
+vendor/moyer/qtemp/
+├── src/
+│   ├── Qtemp.php              # 核心基类，提供魔术方法支持
+│   ├── helpers.php            # 全局助手函数
+│   ├── control/               # UI 控件
+│   │   ├── Control.php        # 控件基类
+│   │   ├── Button.php         # 按钮控件
+│   │   ├── BtnAction.php      # 动作按钮
+│   │   ├── BtnExcelToData.php # Excel 导入按钮
+│   │   ├── BtnSubmit.php      # 提交按钮
+│   │   ├── BtnTarget.php      # 目标按钮
+│   │   ├── NavTab.php         # 导航标签
+│   │   └── TableMin.php       # 迷你表格
+│   ├── form/                  # 表单控件
+│   │   ├── FormControl.php    # 表单基类
+│   │   ├── FormValidator.php  # 表单验证器
+│   │   ├── TextInput.php      # 文本输入框
+│   │   ├── Textarea.php       # 多行文本框
+│   │   ├── Label.php          # 标签
+│   │   ├── SelectControl.php  # 选择框基类
+│   │   ├── SelectOne.php      # 单选下拉框
+│   │   ├── SelectMany.php     # 多选下拉框
+│   │   ├── ImageUpload.php    # 图片上传
+│   │   ├── ImageUploadMulti.php # 多图片上传
+│   │   ├── FileUpload.php     # 文件上传
+│   │   ├── FileUploadMulti.php  # 多文件上传
+│   │   └── BaiduEditor.php    # 百度编辑器
+│   └── excel/                 # Excel 处理
+│       └── ExcelExport.php    # Excel 导出
+├── composer.json
+├── version
+└── README.md
 ```
 
 ## 核心特性
@@ -48,7 +67,7 @@ qtemp 基类提供了灵活的魔术方法调用方式：
 
 - **属性设置**：`$obj->propertyName($value)` - 设置属性值
 - **布尔属性**：`$obj->propertyName()` - 将布尔属性设为 `true`
-- **布尔否定**：`$obj->noPropertyName()` - 将布尔属性设为 `false(不过不太常用，因为大部分bool的默认值是false)`
+- **布尔否定**：`$obj->noPropertyName()` - 将布尔属性设为 `false`
 - **数组添加**：`$obj->addPropertyName($array)` - 为数组属性添加元素
 
 ### 2. 链式调用
@@ -56,11 +75,24 @@ qtemp 基类提供了灵活的魔术方法调用方式：
 所有 setter 方法都支持链式调用，使代码更加简洁：
 
 ```php
-$button = (new Button())
+(new \qtemp\control\Button)
     ->text('提交')
     ->btnclass('btn-primary')
     ->action('/submit')
-    ->fa('fa-save');
+    ->fa('save')
+    ->echo();
+```
+
+### 3. 助手函数
+
+通过 composer 自动加载的全局助手函数：
+
+```php
+// 安全获取数组值
+$value = \qtemp\getValue($item, 'user.name', '默认值');
+
+// 通配符字符串匹配
+$property = \qtemp\getSubstring('addTitle', 'add*');
 ```
 
 ## 快速开始
@@ -68,11 +100,8 @@ $button = (new Button())
 ### 按钮控件
 
 ```php
-use qtemp\control\Button;
-
 // 创建一个按钮
-$button = new Button();
-$button->text('点击我')
+(new \qtemp\control\Button)->text('点击我')
        ->btnclass('btn-success')
        ->size('btn-lg')
        ->action('/api/submit')
@@ -84,32 +113,45 @@ $button->text('点击我')
 ### 表单控件
 
 ```php
-use qtemp\form\TextInput;
-use qtemp\form\SelectOne;
-use qtemp\form\Textarea;
-
 // 文本输入框
-$input = new TextInput();
-$input->name('username')
+(new \qtemp\form\TextInput)->name('username')
       ->title('用户名')
       ->value('')
       ->required()
-      ->group()->echo() // 分组输出
+      ->group()->echo(); // 分组输出
 
 // 下拉选择框
-$select = new SelectOne();
-$select->name('status')
+(new \qtemp\form\SelectOne)->name('status')
        ->title('状态')
        ->option([1 => '启用', 0 => '禁用'])
        ->value(1)
-       ->group()->echo()
+       ->group()->echo();
 
 // 多行文本框
-$textarea = new Textarea();
-$textarea->name('description')
+(new \qtemp\form\Textarea)->name('description')
          ->title('描述')
          ->rows(5)
-         ->group()->echo()
+         ->group()->echo();
+```
+
+### 导航标签 + 表格
+
+```php
+// 导航标签
+(new \qtemp\control\NavTab)->tab([
+    'index' => '列表',
+    'add' => '新增'
+])->echo();
+
+// 数据表格
+(new \qtemp\control\TableMin)->list($items)
+    ->column([
+        'ID' => 'id',
+        '标题' => 'title',
+        '创建时间' => 'create_time'
+    ])
+    ->autoAction()
+    ->echo();
 ```
 
 ### Excel 导出
@@ -117,39 +159,35 @@ $textarea->name('description')
 ```php
 use qtemp\excel\ExcelExport;
 
-$export = new ExcelExport();
-$export->column([
-            'ID' => 'id',
-            '用户名' => 'username',
-            '邮箱' => 'email',
-            '创建时间' => function($item) {
-                return date('Y-m-d H:i:s', $item['create_time']);
-            }
-        ])
-       ->data($userList)
-       ->name('用户列表')
-       ->limit(10000)
-       ->export();
+(new \qtemp\excel\ExcelExport)->column([
+        'ID' => 'id',
+        '用户名' => 'username',
+        '邮箱' => 'email',
+        '创建时间' => function($item) {
+            return date('Y-m-d H:i:s', $item['create_time']);
+        }
+    ])
+    ->data($userList)
+    ->name('用户列表')
+    ->limit(10000)
+    ->export();
 ```
 
 ### 文件上传
 
 ```php
-use qtemp\form\ImageUpload;
-use qtemp\form\FileUploadMulti;
-
 // 单图片上传
-$image = new ImageUpload();
-$image->name('avatar')
-      ->title('头像')
-      ->group()->echo()
+(new \qtemp\form\ImageUpload)->name('avatar')
+    ->title('头像')
+    ->group()
+    ->echo();
 
 // 多文件上传
-$files = new FileUploadMulti();
-$files->name('attachments')
-      ->title('附件')
-      ->extensions('doc,docx,pdf')
-      ->group()->echo()
+(new \qtemp\form\FileUploadMulti)
+    ->name('attachments')
+    ->title('附件')
+    ->group()
+    ->echo();
 ```
 
 ## API 参考
@@ -205,9 +243,11 @@ $files->name('attachments')
 
 ## 版本信息
 
-- **版本**: 1.4.4
+- **当前版本**: 1.5.0
 - **作者**: 莫耶尔
+- **Packagist**: [moyer/qtemp](https://packagist.org/packages/moyer/qtemp)
+- **GitHub**: [Orcreala/qtemp](https://github.com/Orcreala/qtemp)
 
-## 许可证
+## 开源协议
 
-本工具包为 ThinkCMF 项目的一部分，遵循相应的开源协议。
+MIT License
