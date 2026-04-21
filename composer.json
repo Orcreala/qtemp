@@ -1,0 +1,43 @@
+{
+    "name": "moyer/qtemp",
+    "description": "ThinkCMF 后台 UI 组件库 - 快速构建管理后台界面",
+    "type": "library",
+    "keywords": [
+        "thinkcmf",
+        "thinkphp",
+        "admin",
+        "ui",
+        "component",
+        "form",
+        "button",
+        "excel"
+    ],
+    "homepage": "https://github.com/moyer/qtemp",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "莫耶尔",
+            "email": "moyer@example.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.0",
+        "thinkcmf/cmf": "^8.0"
+    },
+    "require-dev": {
+        "phpoffice/phpspreadsheet": "^5.3"
+    },
+    "suggest": {
+        "phpoffice/phpspreadsheet": "需要 Excel 导出/导入功能时安装"
+    },
+    "autoload": {
+        "psr-4": {
+            "qtemp\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

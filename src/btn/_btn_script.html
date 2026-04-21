@@ -1,0 +1,127 @@
+<script>
+    /**
+     * Qtemp 弹窗按钮回调函数
+     * 全局函数，供 admin.js 调用
+     */
+    ; (function () {
+        // 记录最后点击的提交按钮
+        $(document).on('click', '.js-ajax-submit', function () {
+            $('.js-ajax-submit').removeData('lastClicked');
+            $(this).data('lastClicked', true);
+        });
+
+        // 注册为全局函数
+        window.__qtemp_submit_success = function (data, statusText, xhr, $form) {
+            // 显示消息
+            if (data.msg) {
+                noty({
+                    text: data.msg,
+                    type: data.code === 1 ? 'success' : 'error',
+                    layout: 'topCenter',
+                    modal: true,
+                    timeout: 800
+                });
+            }
+
+            // 获取按钮配置（优先获取最后点击的按钮）
+            var $btn = $form.find('.js-ajax-submit').filter(function () {
+                return $(this).data('lastClicked') === true;
+            });
+            if (!$btn.length) {
+                $btn = $form.find('.js-ajax-submit:focus');
+            }
+            if (!$btn.length) {
+                $btn = $form.find('.js-ajax-submit').first();
+            }
+            var closeConfig = $btn.data('close');
+            var refreshConfig = $btn.data('refresh');
+            var doRefresh = refreshConfig !== false && refreshConfig !== 'false';
+
+            // 判断是否需要关闭
+            var needClose = false;
+            if (closeConfig === true || closeConfig === 'true' || closeConfig === 1) {
+                needClose = true;
+            } else if (typeof closeConfig === 'number' && data.code === closeConfig) {
+                needClose = true;
+            }
+
+            if (needClose) {
+                setTimeout(function () {
+                    console.log('关闭弹窗');
+                    try {
+                        // 在iframe中，关闭父窗口的弹窗
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        if (doRefresh) {
+                            parent.location.reload();
+                        }
+                    } catch (e) {
+                        // 不在弹窗中，直接刷新
+                        if (doRefresh) {
+                            if (data.url) {
+                                window.location.href = data.url;
+                            } else {
+                                reloadPage(window);
+                            }
+                        }
+                    }
+                }, 300);
+            } else if (doRefresh) {
+                setTimeout(function () {
+                    if (data.url) {
+                        window.location.href = data.url;
+                    } else {
+                        reloadPage(window);
+                    }
+                }, 800);
+            }
+        };
+
+        // BtnAction 支持
+        window.__qtemp_action_complete = function (data, $btn) {
+            var closeConfig = $btn.data('close');
+            var refreshConfig = $btn.data('refresh');
+            var doRefresh = refreshConfig !== false && refreshConfig !== 'false';
+
+            var needClose = false;
+            if (closeConfig === true || closeConfig === 'true' || closeConfig === 1) {
+                needClose = true;
+            } else if (typeof closeConfig === 'number' && data.code === closeConfig) {
+                needClose = true;
+            }
+
+            if (needClose) {
+                setTimeout(function () {
+                    try {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        if (doRefresh) {
+                            parent.location.reload();
+                        }
+                    } catch (e) {
+                        if (doRefresh) {
+                            location.reload();
+                        }
+                    }
+                }, 800);
+            }
+        };
+
+        // 监听 BtnAction 的 AJAX 完成事件
+        $(document).ajaxComplete(function (event, xhr, settings) {
+            try {
+                var data = JSON.parse(xhr.responseText);
+                if (data.code !== undefined) {
+                    var $btn = $('.js-ajax-dialog-btn:focus');
+                    if (!$btn.length) {
+                        $btn = $(document.activeElement);
+                        if (!$btn.hasClass('js-ajax-dialog-btn')) {
+                            return;
+                        }
+                    }
+                    window.__qtemp_action_complete(data, $btn);
+                }
+            } catch (e) { }
+        });
+    })();
+</script>

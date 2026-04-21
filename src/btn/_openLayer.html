@@ -1,0 +1,197 @@
+<script>
+    (function() {
+        // 记录最后点击的提交按钮
+        $(document).on('click', '.js-ajax-submit', function() {
+            $('.js-ajax-submit').removeData('lastClicked');
+            $(this).data('lastClicked', true);
+        });
+
+        // 全局标志：是否需要关闭弹窗
+        window.__qtemp_auto_close = false;
+        window.__qtemp_close_code = false;
+
+        // 注册为全局函数，确保在任何地方都能访问
+        window.openLayer = function(title, width, height, url) {
+            Wind.css('layer');
+            Wind.use("layer", function () {
+                layer.open({
+                    type: 2,
+                    title: title,
+                    area: [width, height],
+                    content: url,
+                    success: function(layero, index) {
+                        // 存储当前弹窗的索引
+                        window.__currentLayerIndex = index;
+                        
+                        // 获取iframe窗口对象
+                        var iframe = layero.find('iframe')[0].contentWindow;
+                        
+                        // 向iframe注入关闭函数
+                        iframe.__qtemp_parent = window;
+                        iframe.__qtemp_layer_index = index;
+                        
+                        // 注入成功回调到iframe
+                        iframe.__qtemp_btn_success = function(data, statusText, xhr, $form) {
+                            window.__qtemp_btn_success(data, statusText, xhr, $form, index);
+                        };
+                        
+                        // 注入辅助函数到iframe
+                        iframe.closeDialogIfNeeded = function(closeType, data, refresh) {
+                            window.closeDialogIfNeeded(closeType, data, refresh);
+                        };
+                    },
+                    end: function() {
+                        // 弹窗关闭后的处理
+                        if (window.__qtemp_auto_close === 'refresh') {
+                            location.reload();
+                        }
+                        // 重置标志
+                        window.__qtemp_auto_close = false;
+                        window.__qtemp_close_code = false;
+                    }
+                });
+            });
+        };
+    })();
+    
+    /**
+     * 关闭当前弹窗
+     * @param {boolean|int} closeType true=关闭 false=不关闭 int=匹配code时关闭
+     * @param {Object} data 返回的数据
+     * @param {boolean} refresh 是否刷新父页面
+     */
+    function closeDialogIfNeeded(closeType, data, refresh) {
+        // 判断是否需要关闭
+        var needClose = false;
+        
+        if (closeType === true) {
+            needClose = true;
+        } else if (typeof closeType === 'number' && data && data.code === closeType) {
+            needClose = true;
+        }
+        
+        if (needClose) {
+            if (refresh) {
+                window.__qtemp_auto_close = 'refresh';
+            } else {
+                window.__qtemp_auto_close = true;
+            }
+            
+            // 关闭弹窗
+            if (window.__currentLayerIndex) {
+                layer.close(window.__currentLayerIndex);
+            } else {
+                // 尝试从iframe内部关闭
+                try {
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                } catch(e) {}
+            }
+            
+            // 刷新（如果需要）
+            if (refresh) {
+                setTimeout(function() {
+                    location.reload();
+                }, 100);
+            }
+        }
+    }
+    
+    /**
+     * 供按钮回调使用的全局回调函数
+     */
+    window.__qtemp_btn_success = function(data, statusText, xhr, $form) {
+        // 显示消息
+        if (data.msg) {
+            noty({
+                text: data.msg,
+                type: data.code === 1 ? 'success' : 'error',
+                layout: 'topCenter',
+                modal: true,
+                timeout: 800
+            });
+        }
+        
+        // 获取按钮配置（优先获取最后点击的按钮）
+        var $btn = $form && $form.length ? $form.find('.js-ajax-submit').filter(function() {
+            return $(this).data('lastClicked') === true;
+        }) : $(':focus');
+        if (!$btn || !$btn.length) {
+            $btn = $('.js-ajax-submit:focus');
+        }
+        if (!$btn.length) {
+            $btn = $form && $form.length ? $form.find('.js-ajax-submit').first() : $('.js-ajax-submit').first();
+        }
+        
+        var closeConfig = $btn.data('close');
+        var refreshConfig = $btn.data('refresh');
+        
+        // 默认 refresh 默认是 true（和原有逻辑一致）
+        if (refreshConfig !== false && refreshConfig !== 'false') {
+            refreshConfig = true;
+        } else {
+            refreshConfig = false;
+        }
+        
+        // 关闭弹窗（如果配置了）
+        if (closeConfig !== undefined && closeConfig !== false && closeConfig !== 'false') {
+            // 延迟一点关闭，让用户能看到消息
+            setTimeout(function() {
+                closeDialogIfNeeded(closeConfig, data, refreshConfig);
+            }, 300);
+        } else if (refreshConfig) {
+            // 不需要关闭但需要刷新
+            setTimeout(function() {
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    reloadPage(window);
+                }
+            }, 800);
+        }
+    };
+    
+    /**
+     * BtnAction 专用的回调函数
+     */
+    window.__qtemp_action_success = function(data) {
+        // 这个函数会在 admin.js 的 noty 回调之后执行
+        // 我们通过 ajaxComplete 来捕获事件
+    };
+    
+    // 监听 BtnAction (js-ajax-dialog-btn) 的 AJAX 完成事件
+    $(document).ajaxComplete(function(event, xhr, settings) {
+        try {
+            var data = JSON.parse(xhr.responseText);
+            if (data.code !== undefined) {
+                // 查找触发请求的按钮
+                var $btn = $('.js-ajax-dialog-btn:focus');
+                if (!$btn.length) {
+                    // 尝试通过其他方式找到按钮
+                    $btn = $(document.activeElement);
+                    if (!$btn.hasClass('js-ajax-dialog-btn')) {
+                        return;
+                    }
+                }
+                
+                var closeConfig = $btn.data('close');
+                var refreshConfig = $btn.data('refresh');
+                
+                if (refreshConfig !== false && refreshConfig !== 'false') {
+                    refreshConfig = true;
+                } else {
+                    refreshConfig = false;
+                }
+                
+                // 检查是否有关闭配置
+                if (closeConfig !== undefined && closeConfig !== false && closeConfig !== 'false') {
+                    setTimeout(function() {
+                        closeDialogIfNeeded(closeConfig, data, refreshConfig);
+                    }, 800); // 延迟到 noty 显示之后
+                }
+            }
+        } catch(e) {
+            // 不是有效的JSON响应
+        }
+    });
+</script>

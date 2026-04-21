@@ -1,0 +1,213 @@
+<script>
+/**
+ * Qtemp 按钮自动关闭弹窗辅助函数
+ * 在弹窗页面中引入此脚本即可支持 close 功能
+ */
+;(function() {
+    // 记录最后点击的提交按钮
+    $(document).on('click', '.js-ajax-submit', function() {
+        $('.js-ajax-submit').removeData('lastClicked');
+        $(this).data('lastClicked', true);
+    });
+
+    // 从按钮获取配置
+    function getButtonConfig($btn) {
+        return {
+            close: $btn.data('close'),
+            refresh: $btn.data('refresh') !== false && $btn.data('refresh') !== 'false'
+        };
+    }
+    
+    // 关闭当前弹窗
+    window.closeCurrentDialog = function(refresh) {
+        try {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+            if (refresh) {
+                parent.location.reload();
+            }
+        } catch(e) {
+            console.log('不在弹窗中，无需关闭:', e);
+        }
+    };
+    
+    // 根据配置决定是否关闭弹窗
+    window.closeDialogIfNeeded = function(closeConfig, data, refresh) {
+        var needClose = false;
+        
+        if (closeConfig === true || closeConfig === 'true') {
+            needClose = true;
+        } else if (typeof closeConfig === 'number' && data && data.code === closeConfig) {
+            needClose = true;
+        }
+        
+        if (needClose) {
+            closeCurrentDialog(refresh);
+        }
+    };
+    
+    // 全局成功回调
+    window.__qtemp_btn_success = function(data, statusText, xhr, $form) {
+        // 显示消息
+        if (data.msg) {
+            noty({
+                text: data.msg,
+                type: data.code === 1 ? 'success' : 'error',
+                layout: 'topCenter',
+                modal: true,
+                timeout: 800
+            });
+        }
+        
+        // 获取按钮配置（优先获取最后点击的按钮）
+        var $btn = $form && $form.length ? $form.find('.js-ajax-submit').filter(function() {
+            return $(this).data('lastClicked') === true;
+        }) : null;
+        if (!$btn || !$btn.length) {
+            $btn = $('.js-ajax-submit:focus');
+        }
+        if (!$btn.length) {
+            $btn = $form && $form.length ? $form.find('.js-ajax-submit').first() : $('.js-ajax-submit').first();
+        }
+        
+        if (!$btn.length) {
+            // 找不到按钮，尝试刷新
+            setTimeout(function() {
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    reloadPage(window);
+                }
+            }, 800);
+            return;
+        }
+        
+        var config = getButtonConfig($btn);
+        
+        // 关闭弹窗（如果配置了）
+        if (config.close !== undefined && config.close !== false && config.close !== 'false') {
+            setTimeout(function() {
+                closeDialogIfNeeded(config.close, data, config.refresh);
+            }, 300);
+        } else if (config.refresh) {
+            // 不需要关闭但需要刷新
+            setTimeout(function() {
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    reloadPage(window);
+                }
+            }, 800);
+        }
+    };
+    
+    // 为 BtnAction 增加支持
+    $(document).ajaxComplete(function(event, xhr, settings) {
+        try {
+            var data = JSON.parse(xhr.responseText);
+            if (data.code !== undefined) {
+                var $btn = $('.js-ajax-dialog-btn:focus');
+                if (!$btn.length) {
+                    $btn = $(document.activeElement);
+                    if (!$btn.hasClass('js-ajax-dialog-btn')) {
+                        return;
+                    }
+                }
+                
+                var config = getButtonConfig($btn);
+                
+                if (config.close !== undefined && config.close !== false && config.close !== 'false') {
+                    setTimeout(function() {
+                        closeDialogIfNeeded(config.close, data, config.refresh);
+                    }, 800);
+                }
+            }
+        } catch(e) {}
+    });
+})();
+</script>
+
+<?php
+// 辅助函数：输出关闭弹窗的脚本
+function qtemp_output_dialog_script() {
+    static $outputed = false;
+    if ($outputed) return;
+    $outputed = true;
+    
+    // 直接输出内联脚本
+    echo <<<HTML
+<script>
+;(function() {
+    // 记录最后点击的提交按钮
+    $(document).on('click', '.js-ajax-submit', function() {
+        $('.js-ajax-submit').removeData('lastClicked');
+        $(this).data('lastClicked', true);
+    });
+
+    window.closeCurrentDialog = function(refresh) {
+        try {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+            if (refresh) {
+                parent.location.reload();
+            }
+        } catch(e) {}
+    };
+    
+    window.closeDialogIfNeeded = function(closeConfig, data, refresh) {
+        var needClose = false;
+        if (closeConfig === true || closeConfig === 'true') {
+            needClose = true;
+        } else if (typeof closeConfig === 'number' && data && data.code === closeConfig) {
+            needClose = true;
+        }
+        
+        if (needClose) {
+            closeCurrentDialog(refresh);
+        }
+    };
+    
+    window.__qtemp_btn_success = function(data, statusText, xhr, \$form) {
+        if (data.msg) {
+            noty({
+                text: data.msg,
+                type: data.code === 1 ? 'success' : 'error',
+                layout: 'topCenter',
+                modal: true,
+                timeout: 800
+            });
+        }
+        
+        // 获取按钮配置（优先获取最后点击的按钮）
+        var \$btn = \$form && \$form.length ? \$form.find('.js-ajax-submit').filter(function() {
+            return $(this).data('lastClicked') === true;
+        }) : null;
+        if (!\$btn || !\$btn.length) {
+            \$btn = $('.js-ajax-submit:focus');
+        }
+        if (!\$btn || !\$btn.length) {
+            \$btn = \$form && \$form.length ? \$form.find('.js-ajax-submit').first() : $('.js-ajax-submit').first();
+        }
+        
+        var closeConfig = \$btn.data('close');
+        var refresh = \$btn.data('refresh') !== false && \$btn.data('refresh') !== 'false';
+        
+        if (closeConfig !== undefined && closeConfig !== false && closeConfig !== 'false') {
+            setTimeout(function() {
+                closeDialogIfNeeded(closeConfig, data, refresh);
+            }, 300);
+        } else if (refresh) {
+            setTimeout(function() {
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    reloadPage(window);
+                }
+            }, 800);
+        }
+    };
+})();
+</script>
+HTML;
+}
+?>
