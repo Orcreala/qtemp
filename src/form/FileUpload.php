@@ -62,7 +62,7 @@ class FileUpload extends FormControl
             <?php if (isset($this->value) && !empty($this->value)): ?>
                 <div class="file-info">
                     <i class="fa fa-<?= $fa?>"></i>
-                    <span><?= $this->filename??$this->value ?></span>
+                    <span><?= $this->value ?></span>
                 </div>
             <?php else: ?>
                 <div class="file-placeholder">
@@ -146,7 +146,7 @@ class FileUpload extends FormControl
                     input.value=files[0].filepath;
                     preview.innerHTML = 
                     '<div class="file-info"><i class="fa fa-<?= $fa?>"></i><span>' 
-                        + <?php if($this->hasfilename){echo '(name)';}else{echo 'files[0].filepath'; }?>+ 
+                        + files[0].filepath+ 
                     '</span></div>';
                     if (!required) {
                         cancel.style.display = '';
