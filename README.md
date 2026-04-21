@@ -31,13 +31,14 @@ vendor/moyer/qtemp/
 │   ├── helpers.php            # 全局助手函数
 │   ├── control/               # UI 控件
 │   │   ├── Control.php        # 控件基类
-│   │   ├── Button.php         # 按钮控件
+│   │   ├── NavTab.php         # 导航标签
+│   │   └── TableMin.php       # 迷你表格
+│   ├── btn/                   #按钮
+│   │   ├── Button.php         # 按钮控件基类
 │   │   ├── BtnAction.php      # 动作按钮
 │   │   ├── BtnExcelToData.php # Excel 导入按钮
 │   │   ├── BtnSubmit.php      # 提交按钮
-│   │   ├── BtnTarget.php      # 目标按钮
-│   │   ├── NavTab.php         # 导航标签
-│   │   └── TableMin.php       # 迷你表格
+│   │   └── BtnTarget.php      # 目标按钮
 │   ├── form/                  # 表单控件
 │   │   ├── FormControl.php    # 表单基类
 │   │   ├── FormValidator.php  # 表单验证器
