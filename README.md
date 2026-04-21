@@ -76,7 +76,7 @@ qtemp 基类提供了灵活的魔术方法调用方式：
 所有 setter 方法都支持链式调用，使代码更加简洁：
 
 ```php
-(new \qtemp\control\Button)
+(new \qtemp\btn\Button)
     ->text('提交')
     ->btnclass('btn-primary')
     ->action('/submit')
@@ -102,7 +102,7 @@ $property = \qtemp\getSubstring('addTitle', 'add*');
 
 ```php
 // 创建一个按钮
-(new \qtemp\control\Button)->text('点击我')
+(new \qtemp\btn\Button)->text('点击我')
        ->btnclass('btn-success')
        ->size('btn-lg')
        ->action('/api/submit')
