@@ -1,9 +1,4 @@
 vendor/
 composer.lock
 *.log
-.DS_Store
-.idea/
-.vscode/
-.trae/
 *.zip
-.gitignore
