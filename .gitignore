@@ -6,3 +6,4 @@ composer.lock
 .vscode/
 .trae/
 *.zip
+.gitignore
