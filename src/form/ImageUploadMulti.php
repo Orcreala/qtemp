@@ -49,10 +49,13 @@ class ImageUploadMulti extends FormControl
         $max = $this->max;
         $required = $this->required;
         $value = $this->value;
+        if(empty(self::$upload_setting)){
+            self::$upload_setting = cmf_get_upload_setting();
+        }
         /**
          * 上传设置
          */
-        $upload_setting = cmf_get_upload_setting();
+        $upload_setting = self::$upload_setting;
         /**
          * 文件类型设置
          */

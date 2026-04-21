@@ -39,10 +39,13 @@ class ImageUpload extends FormControl
         if (isset($this->value) && !empty($this->value)) {
             $upload_img_src = cmf_get_image_preview_url($this->value);//thinkcmf图片路径
         }
+        if(empty(self::$upload_setting)){
+            self::$upload_setting = cmf_get_upload_setting();
+        }
         /**
          * 上传设置
          */
-        $upload_setting = cmf_get_upload_setting();
+        $upload_setting = self::$upload_setting;
         /**
          * 文件类型设置
          */

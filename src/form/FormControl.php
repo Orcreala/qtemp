@@ -80,6 +80,13 @@ abstract class FormControl extends Control
      * @var bool $group
      */
     protected $group=false;
+
+
+    /**
+     * 上传设置
+     * @var array
+     */
+    static protected $upload_setting=[];
     /** 
      * 分组输出
      */

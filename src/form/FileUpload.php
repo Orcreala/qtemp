@@ -23,10 +23,13 @@ class FileUpload extends FormControl
     protected $filetype='file';
     protected function temp()
     {
+        if(empty(self::$upload_setting)){
+            self::$upload_setting = cmf_get_upload_setting();
+        }
         /**
          * 上传设置
          */
-        $upload_setting = cmf_get_upload_setting();
+        $upload_setting = self::$upload_setting;
         /**
          * 文件类型设置
          */
