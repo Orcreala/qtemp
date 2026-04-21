@@ -5,7 +5,7 @@ use qtemp\form\FormValidator;
  * 单文件上传
  * 输入框的id为name，文件预览的id为name-preview，文件名的id为name-filename
  * @method $this filename(string $filename) 设置文件名
- * @method $this hasfilename(bool $hasfilename) 是否显示文件名输入框
+ * @method $this hasfilename(bool $hasfilename=true) 是否显示文件名输入框
  * @method $this filetype(string $filetype) 设置文件类型
  * @see FormControl
  * @author 莫耶尔
@@ -62,7 +62,7 @@ class FileUpload extends FormControl
             <?php if (isset($this->value) && !empty($this->value)): ?>
                 <div class="file-info">
                     <i class="fa fa-<?= $fa?>"></i>
-                    <span><?= $this->filename ?></span>
+                    <span><?= $this->filename??$this->value ?></span>
                 </div>
             <?php else: ?>
                 <div class="file-placeholder">
@@ -144,7 +144,10 @@ class FileUpload extends FormControl
                 openUploadDialog("文件上传", function (dialog, files) {
                     var name=files[0].name.replace(/\.[^.]+$/, '');
                     input.value=files[0].filepath;
-                    preview.innerHTML = '<div class="file-info"><i class="fa fa-<?= $fa?>"></i><span>' + (name) + '</span></div>';
+                    preview.innerHTML = 
+                    '<div class="file-info"><i class="fa fa-<?= $fa?>"></i><span>' 
+                        + <?php if($this->hasfilename){echo '(name)';}else{echo 'files[0].filepath'; }?>+ 
+                    '</span></div>';
                     if (!required) {
                         cancel.style.display = '';
                     }

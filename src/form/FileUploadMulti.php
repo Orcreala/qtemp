@@ -129,20 +129,20 @@ class FileUploadMulti extends FormControl
             <?php endif; ?>
         </div>
         <script type="text/html" id="<?= $name ?>-files-item-tpl">
-                        <li id="<?= $name ?>-saved-file{id}">
-                            <input id="<?= $name ?>-file-{id}" type="hidden" name="<?= $name ?>[]" value="{filepath}">
-                            <div class="file-info" style="display: inline-block; vertical-align: middle; margin-right: 10px;">
-                                <i class="fa fa-<?= $fa ?>"></i>
-                            </div>
-                            <?php if ($this->hasfilename): ?>
-                                        <input type="text" class="form-control" style="width:200px" id="<?= $name ?>-file-{id}-name" name="<?= $name ?>-filename[]" value="{name}">
-                            <?php endif; ?>
-                            <a class="btn btn-default" href="javascript:uploadOne('文件上传','#<?= $name ?>-file-{id}','file');"><i class="fa fa-upload fa-fw"></i></a>
-                            <a class="btn btn-danger" href="javascript:(function(){$('#<?= $name ?>-saved-file{id}').remove();checkFileCount_<?= $name ?>();})();"><i class="fa fa-trash fa-fw"></i></a>
-                            <a class="btn btn-success btn-up" href="javascript:(function(){$('#<?= $name ?>-saved-file{id}').insertBefore($('#<?= $name ?>-saved-file{id}').prev());})();"><i class="fa fa-arrow-up fa-fw"></i></a>
-                            <a class="btn btn-success btn-down" href="javascript:(function(){$('#<?= $name ?>-saved-file{id}').before($('#<?= $name ?>-saved-file{id}').next());})();"><i class="fa fa-arrow-down fa-fw"></i></a>
-                        </li>
-                    </script>
+            <li id="<?= $name ?>-saved-file{id}">
+                <input id="<?= $name ?>-file-{id}" type="hidden" name="<?= $name ?>[]" value="{filepath}">
+                <div class="file-info" style="display: inline-block; vertical-align: middle; margin-right: 10px;">
+                    <i class="fa fa-<?= $fa ?>"></i>
+                </div>
+                <?php if ($this->hasfilename): ?>
+                    <input type="text" class="form-control" style="width:200px" id="<?= $name ?>-file-{id}-name" name="<?= $name ?>-filename[]" value="{name}">
+                <?php endif; ?>
+                <a class="btn btn-default" href="javascript:uploadOne('文件上传','#<?= $name ?>-file-{id}','file');"><i class="fa fa-upload fa-fw"></i></a>
+                <a class="btn btn-danger" href="javascript:(function(){$('#<?= $name ?>-saved-file{id}').remove();checkFileCount_<?= $name ?>();})();"><i class="fa fa-trash fa-fw"></i></a>
+                <a class="btn btn-success btn-up" href="javascript:(function(){$('#<?= $name ?>-saved-file{id}').insertBefore($('#<?= $name ?>-saved-file{id}').prev());})();"><i class="fa fa-arrow-up fa-fw"></i></a>
+                <a class="btn btn-success btn-down" href="javascript:(function(){$('#<?= $name ?>-saved-file{id}').before($('#<?= $name ?>-saved-file{id}').next());})();"><i class="fa fa-arrow-down fa-fw"></i></a>
+            </li>
+        </script>
         <script type="text/javascript">
             document.addEventListener('DOMContentLoaded', function () {
                 var filesContainer = document.getElementById('<?= $name ?>-files');
