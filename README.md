@@ -1,7 +1,6 @@
 # qtemp 集成式工具包
 
 [![Latest Stable Version](https://poser.pugx.org/moyer/qtemp/v)](https://packagist.org/packages/moyer/qtemp)
-[![Total Downloads](https://poser.pugx.org/moyer/qtemp/downloads)](https://packagist.org/packages/moyer/qtemp)
 [![License](https://poser.pugx.org/moyer/qtemp/license)](https://packagist.org/packages/moyer/qtemp)
 [![PHP Version](https://poser.pugx.org/moyer/qtemp/require/php)](https://packagist.org/packages/moyer/qtemp)
 
@@ -158,8 +157,6 @@ $property = \qtemp\getSubstring('addTitle', 'add*');
 ### Excel 导出
 
 ```php
-use qtemp\excel\ExcelExport;
-
 (new \qtemp\excel\ExcelExport)->column([
         'ID' => 'id',
         '用户名' => 'username',
@@ -242,9 +239,8 @@ use qtemp\excel\ExcelExport;
 | `limit(int)`       | 设置数据量限制 |
 | `export()`         | 执行导出下载   |
 
-## 版本信息
+## 信息
 
-- **当前版本**: 1.5.0
 - **作者**: 莫耶尔
 - **Packagist**: [moyer/qtemp](https://packagist.org/packages/moyer/qtemp)
 - **GitHub**: [Orcreala/qtemp](https://github.com/Orcreala/qtemp)
