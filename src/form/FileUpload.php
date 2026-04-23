@@ -3,7 +3,7 @@ namespace qtemp\form;
 use qtemp\form\FormValidator;
 /**
  * 单文件上传
- * 输入框的id为name，文件预览的id为name-preview，文件名的id为name-filename
+ * 输入框的id为name，文件预览的id为name-preview，文件名的id为name-filename,name为name_filename
  * @method $this filename(string $filename) 设置文件名
  * @method $this hasfilename(bool $hasfilename=true) 是否显示文件名输入框
  * @method $this filetype(string $filetype) 设置文件类型
@@ -73,12 +73,13 @@ class FileUpload extends FormControl
         </div>
         <?php 
         if($this->hasfilename):
-            (new TextInput)->name($this->name.'-filename')
-            ->value($this->filename)
-            ->addHtmlclass('margin-top-10')
-            ->addConfig(['style'=>'width: 300px;'])
-            ->placeholder('文件名')
-            ->echo();
+            (new TextInput)
+                ->name($this->name.'_filename')
+                ->value($this->filename)
+                ->addHtmlclass('margin-top-10')
+                ->addConfig(['style'=>'width: 300px;'])
+                ->placeholder('文件名')
+                ->echo();
             endif;
         ?>
         <?php if (!empty($upload_setting)): ?>
@@ -107,7 +108,7 @@ class FileUpload extends FormControl
             var preview = document.getElementById('<?= $this->name ?>-preview');
             var input = document.getElementById('<?= $this->name ?>');
             <?php if($this->hasfilename):?>
-            var filename = document.getElementById('<?= $this->name ?>-filename');
+            var filename = document.getElementById('<?= $this->name ?>_filename');
             <?php endif;?>
             var cancel = document.getElementById('<?= $this->name ?>-cancel');
             var required=<?= ($this->required ? 'true' : 'false');?>;

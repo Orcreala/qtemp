@@ -87,7 +87,7 @@ class ImageUploadMulti extends FormControl
                         <img id="<?= $name ?>-photo-<?= $key ?>-preview" src="<?= $img_url ?>" style="height:34px;width: 44px;"
                              onclick="imagePreviewDialog(this.src);">
                         <?php if($this->hasfilename):?>
-                        <input type="text" class="form-control" id="<?= $name ?>-photo-<?= $key ?>-name" name="<?= $name ?>-filename[]" value="<?= $filename ?>" style="width:200px">
+                        <input type="text" class="form-control" id="<?= $name ?>-photo-<?= $key ?>-name" name="<?= $name ?>_filename[]" value="<?= $filename ?>" style="width:200px">
                         <?php endif;?>
                         <a class="btn btn-default" href="javascript:uploadOneImage('图片上传','#<?= $name ?>-photo-<?= $key ?>');"><i class="fa fa-upload fa-fw"></i></a>
                         <a class="btn btn-danger" href="javascript:(function(){$('#<?= $name ?>-saved-image<?= $key ?>').remove();checkImageCount_<?= $name ?>();})();"><i class="fa fa-trash fa-fw"></i></a>
@@ -120,7 +120,7 @@ class ImageUploadMulti extends FormControl
             <img id="<?= $name ?>-photo-{id}-preview" src="{url}" style="height:34px;max-width: 34px;object-fit: cover;"
                  onclick="imagePreviewDialog(this.src);">
             <?php if($this->hasfilename):?>
-                <input type="text" class="form-control" style="width:200px" id="<?= $name ?>-photo-{id}-name" name="<?= $name ?>-filename[]" value="{name}">
+                <input type="text" class="form-control" style="width:200px" id="<?= $name ?>-photo-{id}-name" name="<?= $name ?>_filename[]" value="{name}">
             <?php endif;?>
             <a class="btn btn-default" href="javascript:uploadOneImage('图片上传','#<?= $name ?>-photo-{id}');"><i class="fa fa-upload fa-fw"></i></a>
             <a class="btn btn-danger" href="javascript:(function(){$('#<?= $name ?>-saved-image{id}').remove();checkImageCount_<?= $name ?>();})();"><i class="fa fa-trash fa-fw"></i></a>

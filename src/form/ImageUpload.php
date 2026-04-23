@@ -4,7 +4,7 @@ use qtemp\form\FormControl;
 use qtemp\form\FormValidator;
 /**
  * 单图片上传
- * 输入框的id为name，图片预览的id为name-preview，文件名的id为name-filename
+ * 输入框的id为name，图片预览的id为name-preview，文件名的id为name-filename,name为name_filename
  * @method $this default_src(string $default_src) 设置默认图片
  * @method $this filename(string $filename) 设置图片名
  * @method $this hasfilename(bool $hasfilename) 是否有文件名
@@ -77,12 +77,13 @@ class ImageUpload extends FormControl
                 alt="<?= $this->filename ?>"
             >
         </a>
-        <?php if($this->hasfilename){(new TextInput)->name($this->name.'-filename')
-        ->value($this->filename)
-        ->addHtmlclass('margin-top-10')
-        ->addConfig(['style'=>'width: 150px;'])
-        ->placeholder('图片名')
-        ->echo();}?>
+        <?php if($this->hasfilename){(new TextInput)
+            ->name($this->name.'_filename')
+            ->value($this->filename)
+            ->addHtmlclass('margin-top-10')
+            ->addConfig(['style'=>'width: 150px;'])
+            ->placeholder('图片名')
+            ->echo();}?>
         <?php if (!empty($upload_setting)): ?>
             <p class="help-block">
                 <?php if (!empty($max_size)): ?>
@@ -107,7 +108,7 @@ class ImageUpload extends FormControl
         document.addEventListener('DOMContentLoaded', function() {
             var image = document.getElementById('<?= $this->name ?>-preview');
             var input = document.getElementById('<?= $this->name ?>');
-            var filename = document.getElementById('<?= $this->name ?>-filename');
+            var filename = document.getElementById('<?= $this->name ?>_filename');
             var cancel = document.getElementById('<?= $this->name ?>-cancel');
             var required=<?= ($this->required ? 'true' : 'false');?>;
             cancel.addEventListener('click', function() {

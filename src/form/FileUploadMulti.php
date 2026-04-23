@@ -94,7 +94,7 @@ class FileUploadMulti extends FormControl
                             </div>
                             <?php if ($this->hasfilename): ?>
                                 <input type="text" class="form-control" id="<?= $name ?>-file-<?= $key ?>-name"
-                                    name="<?= $name ?>-filename[]" value="<?= $filename ?>" style="width:200px">
+                                    name="<?= $name ?>_filename[]" value="<?= $filename ?>" style="width:200px">
                             <?php endif; ?>
                             <a class="btn btn-default" href="javascript:uploadOneFile('文件上传','#<?= $name ?>-file-<?= $key ?>');"><i
                                     class="fa fa-upload fa-fw"></i></a>
@@ -135,7 +135,7 @@ class FileUploadMulti extends FormControl
                     <i class="fa fa-<?= $fa ?>"></i>
                 </div>
                 <?php if ($this->hasfilename): ?>
-                    <input type="text" class="form-control" style="width:200px" id="<?= $name ?>-file-{id}-name" name="<?= $name ?>-filename[]" value="{name}">
+                    <input type="text" class="form-control" style="width:200px" id="<?= $name ?>-file-{id}-name" name="<?= $name ?>_filename[]" value="{name}">
                 <?php endif; ?>
                 <a class="btn btn-default" href="javascript:uploadOne('文件上传','#<?= $name ?>-file-{id}','file');"><i class="fa fa-upload fa-fw"></i></a>
                 <a class="btn btn-danger" href="javascript:(function(){$('#<?= $name ?>-saved-file{id}').remove();checkFileCount_<?= $name ?>();})();"><i class="fa fa-trash fa-fw"></i></a>
