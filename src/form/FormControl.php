@@ -13,6 +13,8 @@ include_once __DIR__ . '/_head.html';
  * @method $this disabled(bool $disabled = true) 设置是否禁用
  * @method $this read_only(bool $read_only = true) 设置是否只读
  * @method $this group(bool $group = true) 设置分组输出
+ * @method string upload_setting(array $upload_setting = []) 上传设置文本
+ * @method string upload_setting_text(string $type = 'file') 上传设置帮助文本
  * @see Control
  */
 abstract class FormControl extends Control
