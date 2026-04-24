@@ -1,6 +1,5 @@
 # qtemp 集成式工具包
 
-[![Latest Stable Version](https://poser.pugx.org/moyer/qtemp/v)](https://packagist.org/packages/moyer/qtemp)
 [![License](https://poser.pugx.org/moyer/qtemp/license)](https://packagist.org/packages/moyer/qtemp)
 [![PHP Version](https://poser.pugx.org/moyer/qtemp/require/php)](https://packagist.org/packages/moyer/qtemp)
 

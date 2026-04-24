@@ -136,3 +136,29 @@ if (!function_exists('qtemp\getSubstring')) {
         return '';
     }
 }
+if (!function_exists('qtemp\kbToString')) {
+    /**
+     * 转换KB大小为TB、GB、MB、KB格式
+     * @param int $kb KB大小
+     * @return string
+     */
+    function kbToString(int $kb)
+    {
+        $num=$kb;
+        $type='KB';
+        if($num>1024){
+            $num=$num/1024;
+            $type='MB';
+        }
+        if($num>1024){
+            $num=$num/1024;
+            $type='GB';
+        }
+        if($num>1024){
+            $num=$num/1024;
+            $type='TB';
+        }
+        $num = round($num, 1);
+        return $num.$type;
+    }
+}
