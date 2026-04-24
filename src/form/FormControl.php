@@ -109,7 +109,8 @@ abstract class FormControl extends Control
         if (empty($max_size) || empty($extensions)) {
             return '';
         }
-        return `允许上传大小` . $max_size . `KB,1M=1024KB；允许上传格式为` . $extensions;
+        $text = '允许上传大小' . $max_size . 'KB,1M=1024KB；允许上传格式为' . $extensions;
+        return $text;
     }
 
     /**
@@ -124,7 +125,7 @@ abstract class FormControl extends Control
             return '';
         }
         $text = str_replace("；", '<br>', $text);
-        return `<p class="help-block">$text</p>`;
+        return '<p class="help-block">' . $text . '</p>';
 
     }
 
