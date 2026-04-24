@@ -39,23 +39,6 @@ class ImageUpload extends FormControl
         if (isset($this->value) && !empty($this->value)) {
             $upload_img_src = cmf_get_image_preview_url($this->value);//thinkcmf图片路径
         }
-        if(empty(self::$upload_setting)){
-            self::$upload_setting = cmf_get_upload_setting();
-        }
-        /**
-         * 上传设置
-         */
-        $upload_setting = self::$upload_setting;
-        /**
-         * 文件类型设置
-         */
-        $max_size = 0;
-        $extensions = '';
-        $type_setting = \qtemp\getValue($upload_setting, ['file_types', 'image']);
-        if (!empty($type_setting)) {
-            $max_size = isset($type_setting['upload_max_filesize']) ? $type_setting['upload_max_filesize'] : 0;
-            $extensions = isset($type_setting['extensions']) ? $type_setting['extensions'] : '';
-        }
     ?>
     <div class="<?= $this->name ?>upload-container image-upload-container"
         <?php $this->ConfigData();?>
@@ -84,17 +67,7 @@ class ImageUpload extends FormControl
             ->addConfig(['style'=>'width: 150px;'])
             ->placeholder('图片名')
             ->echo();}?>
-        <?php if (!empty($upload_setting)): ?>
-            <p class="help-block">
-                <?php if (!empty($max_size)): ?>
-                    允许上传大小<?= $max_size ?>KB,1M=1024KB
-                <?php endif; ?>
-                <br>
-                <?php if (!empty($extensions)): ?>
-                    允许上传格式为<?= $extensions ?>
-                <?php endif; ?>
-            </p>
-        <?php endif; ?>
+        <?= $this->uploadSettingHelpText('image');?>
         <input 
             type="button" 
             class="btn btn-sm btn-cancel btn-danger" 
