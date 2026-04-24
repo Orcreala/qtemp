@@ -111,6 +111,7 @@ abstract class FormControl extends Control
         if (empty($max_size) || empty($extensions)) {
             return '';
         }
+        //大小为最大单位保留一位小数
         $text = '允许上传大小' . \qtemp\kbToString($max_size) . '；允许上传格式为' . $extensions;
         return $text;
     }

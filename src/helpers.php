@@ -138,7 +138,7 @@ if (!function_exists('qtemp\getSubstring')) {
 }
 if (!function_exists('qtemp\kbToString')) {
     /**
-     * 转换KB大小为TB、GB、MB、KB格式
+     * 转换KB大小为最大单位保留一位小数
      * @param int $kb KB大小
      * @return string
      */
