@@ -13,6 +13,7 @@ include_once __DIR__ . '/_upload_multi_style.html';
  * @method $this getItemFilename(mixed $item,mixed $key)从元素获取文件文件名
  * @method $this hasfilename(bool $hasfilename=true) 是否显示文件名输入框
  * @method $this filetype(string $filetype) 设置文件类型
+ * @method $this help_text(string $help_text) 设置帮助文本，默认'最多上传max个文件；最少上传min个文件；允许上传格式为'
  * @see FormControl
  * @see ArrayValue
  * @see AnyToGet

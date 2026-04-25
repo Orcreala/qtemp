@@ -12,6 +12,7 @@ include_once __DIR__ . '/_upload_multi_style.html';
  * @method $this getFilename(string|int|callable|array|null $getFilename) 获取图片文件名的变量名的方式
  * @method $this getItemFilename(mixed $item,mixed $key)从元素获取图片文件名
  * @method $this hasfilename(bool $hasfilename=true) 是否有文件名
+ * @method $this help_text(string $help_text) 设置帮助文本，默认'最多上传max张图片；最少上传min张图片；允许上传格式为'
  * @see FormControl
  * @see ArrayValue
  * @see AnyToGet

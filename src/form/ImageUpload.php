@@ -8,6 +8,7 @@ use qtemp\form\FormValidator;
  * @method $this default_src(string $default_src) 设置默认图片
  * @method $this filename(string $filename) 设置图片名
  * @method $this hasfilename(bool $hasfilename) 是否有文件名
+ * @method $this help_text(string $help_text) 设置帮助文本，默认'允许上传格式为'
  * @see FormControl
  * @author 莫耶尔
  */

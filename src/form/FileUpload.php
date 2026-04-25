@@ -7,6 +7,7 @@ use qtemp\form\FormValidator;
  * @method $this filename(string $filename) 设置文件名
  * @method $this hasfilename(bool $hasfilename=true) 是否显示文件名输入框
  * @method $this filetype(string $filetype) 设置文件类型
+ * @method $this help_text(string $help_text) 设置帮助文本，默认'允许上传格式为'
  * @see FormControl
  * @author 莫耶尔
  */
