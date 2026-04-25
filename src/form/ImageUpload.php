@@ -8,7 +8,7 @@ use qtemp\form\FormValidator;
  * @method $this default_src(string $default_src) 设置默认图片
  * @method $this filename(string $filename) 设置图片名
  * @method $this hasfilename(bool $hasfilename) 是否有文件名
- * @method $this help_text(string $help_text) 设置帮助文本，默认'允许上传格式为'
+ * @method $this helpText(string $helpText) 设置帮助文本，默认'允许上传格式为'
  * @see FormControl
  * @author 莫耶尔
  */
@@ -40,8 +40,8 @@ class ImageUpload extends FormControl
         if (isset($this->value) && !empty($this->value)) {
             $upload_img_src = cmf_get_image_preview_url($this->value);//thinkcmf图片路径
         }
-        if(empty($this->help_text)){
-            $this->help_text = self::uploadSettingText('image',true);
+        if(empty($this->helpText)){
+            $this->helpText = self::uploadSettingText('image',true);
         }
     ?>
     <div class="<?= $this->name ?>upload-container image-upload-container"

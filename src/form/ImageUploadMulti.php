@@ -12,7 +12,7 @@ include_once __DIR__ . '/_upload_multi_style.html';
  * @method $this getFilename(string|int|callable|array|null $getFilename) 获取图片文件名的变量名的方式
  * @method $this getItemFilename(mixed $item,mixed $key)从元素获取图片文件名
  * @method $this hasfilename(bool $hasfilename=true) 是否有文件名
- * @method $this help_text(string $help_text) 设置帮助文本，默认'最多上传max张图片；最少上传min张图片；允许上传格式为'
+ * @method $this helpText(string $helpText) 设置帮助文本，默认'最多上传max张图片；最少上传min张图片；允许上传格式为'
  * @see FormControl
  * @see ArrayValue
  * @see AnyToGet
@@ -42,15 +42,15 @@ class ImageUploadMulti extends FormControl
     }
     protected function tempInit()
     {
-        if (empty($this->help_text)) {
+        if (empty($this->helpText)) {
             if (!empty($this->max)) {
-                $this->help_text .= '最多上传' . $this->max . '张图片；';
+                $this->helpText .= '最多上传' . $this->max . '张图片；';
             }
             if (!empty($this->min)) {
-                $this->help_text .= '最少上传' . $this->min . '张图片';
+                $this->helpText .= '最少上传' . $this->min . '张图片';
             }
-            $this->help_text .= '<br>';
-            $this->help_text .= self::uploadSettingText('image', true);
+            $this->helpText .= '<br>';
+            $this->helpText .= self::uploadSettingText('image', true);
         }
     }
     protected function temp()

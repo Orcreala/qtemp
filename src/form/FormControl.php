@@ -13,7 +13,7 @@ include_once __DIR__ . '/_head.html';
  * @method $this disabled(bool $disabled = true) 设置是否禁用
  * @method $this read_only(bool $read_only = true) 设置是否只读
  * @method $this group(bool $group = true) 设置分组输出
- * @method $this help_text(string $help_text = '') 设置帮助文本
+ * @method $this helpText(string $helpText = '') 设置帮助文本
  * @method string upload_setting(array $upload_setting = []) 上传设置文本
  * @method string upload_setting_text(string $type = 'file') 上传设置帮助文本
  * @see Control
@@ -89,9 +89,9 @@ abstract class FormControl extends Control
 
     /**
      * 帮助文本
-     * @var string $help_text
+     * @var string $helpText
      */
-    public string $help_text = '';
+    public string $helpText = '';
 
 
     /**
@@ -135,9 +135,9 @@ abstract class FormControl extends Control
             <?php (new Label)->name($this->name . '-label')->for($this->name)->title($this->title)->required($this->required)->echo(); ?>
             <div class="col-md-6 col-sm-10">
                 <?php $this->temp(); ?>
-                <?php if (!empty($this->help_text)) { ?>
+                <?php if (!empty($this->helpText)) { ?>
                 <div class="help-block">
-                    <?= $this->help_text ?>
+                    <?= $this->helpText ?>
                 </div>
                 <?php } ?>
             </div>
@@ -152,9 +152,9 @@ abstract class FormControl extends Control
             $this->groupEcho();
         } else {
             parent::echo();
-            if (!empty($this->help_text)) { ?>
+            if (!empty($this->helpText)) { ?>
             <div class="help-block">
-                <?= $this->help_text ?>
+                <?= $this->helpText ?>
             </div>
             <?php } 
         }
