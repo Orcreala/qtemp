@@ -39,6 +39,9 @@ class ImageUpload extends FormControl
         if (isset($this->value) && !empty($this->value)) {
             $upload_img_src = cmf_get_image_preview_url($this->value);//thinkcmf图片路径
         }
+        if(empty($this->help_text)){
+            $this->help_text = self::uploadSettingText('image',true);
+        }
     ?>
     <div class="<?= $this->name ?>upload-container image-upload-container"
         <?php $this->ConfigData();?>
@@ -67,7 +70,6 @@ class ImageUpload extends FormControl
             ->addConfig(['style'=>'width: 150px;'])
             ->placeholder('图片名')
             ->echo();}?>
-        <?= $this->uploadSettingHelpText('image');?>
         <input 
             type="button" 
             class="btn btn-sm btn-cancel btn-danger" 

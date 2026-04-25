@@ -29,7 +29,9 @@ class FileUpload extends FormControl
                 $fa='video-camera';
                 break;
         }
-        
+        if(empty($this->help_text)){
+            $this->help_text = self::uploadSettingText($this->filetype,true);
+        }
     ?>
     <div class="<?= $this->name ?>upload-container file-upload-container"
         <?php $this->ConfigData();?>
@@ -65,8 +67,6 @@ class FileUpload extends FormControl
                 ->echo();
             endif;
         ?>
-        
-        <?= $this->uploadSettingHelpText($this->filetype);?>
         <input 
             type="button" 
             class="btn btn-sm btn-cancel btn-danger" 

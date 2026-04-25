@@ -13,6 +13,7 @@ include_once __DIR__ . '/_head.html';
  * @method $this disabled(bool $disabled = true) 设置是否禁用
  * @method $this read_only(bool $read_only = true) 设置是否只读
  * @method $this group(bool $group = true) 设置分组输出
+ * @method $this help_text(string $help_text = '') 设置帮助文本
  * @method string upload_setting(array $upload_setting = []) 上传设置文本
  * @method string upload_setting_text(string $type = 'file') 上传设置帮助文本
  * @see Control
@@ -86,6 +87,12 @@ abstract class FormControl extends Control
      */
     protected $group = false;
 
+    /**
+     * 帮助文本
+     * @var string $help_text
+     */
+    public string $help_text = '';
+
 
     /**
      * 上传设置
@@ -96,9 +103,10 @@ abstract class FormControl extends Control
     /**
      * 上传设置文本
      * @param string $type
+     * @param bool $inHtml 是否在HTML中输出
      * @return string
      */
-    static public function uploadSettingText(string $type = 'file'): string
+    static public function uploadSettingText(string $type = 'file',bool $inHtml=false): string
     {
         if (empty(self::$upload_setting)) {
             self::$upload_setting = cmf_get_upload_setting();
@@ -112,25 +120,10 @@ abstract class FormControl extends Control
             return '';
         }
         //大小为最大单位保留一位小数
-        $text = '允许上传大小' . \qtemp\kbToString($max_size) . '；允许上传格式为' . $extensions;
+        $text = '允许上传大小' . \qtemp\kbToString($max_size) . ($inHtml ? '<br>' : '；') . '允许上传格式为' . $extensions;
         return $text;
     }
 
-    /**
-     * 上传设置帮助文本
-     * @param string $type
-     * @return string
-     */
-    static public function uploadSettingHelpText(string $type = 'file'): string
-    {
-        $text = self::uploadSettingText($type);
-        if (empty($text)) {
-            return '';
-        }
-        $text = str_replace("；", '<br>', $text);
-        return '<p class="help-block">' . $text . '</p>';
-
-    }
 
     /** 
      * 分组输出
@@ -141,18 +134,29 @@ abstract class FormControl extends Control
         <div class="form-group">
             <?php (new Label)->name($this->name . '-label')->for($this->name)->title($this->title)->required($this->required)->echo(); ?>
             <div class="col-md-6 col-sm-10">
-                <?php parent::echo(); ?>
+                <?php $this->temp(); ?>
+                <?php if (!empty($this->help_text)) { ?>
+                <div class="help-block">
+                    <?= $this->help_text ?>
+                </div>
+                <?php } ?>
             </div>
         </div>
         <?php
     }
 
-    public function echo()
+    public function echo(): void
     {
         if ($this->group) {
+            $this->tempInit();
             $this->groupEcho();
         } else {
-            return parent::echo();
+            parent::echo();
+            if (!empty($this->help_text)) { ?>
+            <div class="help-block">
+                <?= $this->help_text ?>
+            </div>
+            <?php } 
         }
     }
 

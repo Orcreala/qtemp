@@ -98,8 +98,8 @@ abstract class Control extends \qtemp\Qtemp
     protected array $config = [];
 
     /**
-     * 构造函数
-     * @var array $data 数据
+     * 元素data属性
+     * @var array
      */
     protected array $data = [];
 

@@ -3,7 +3,7 @@ namespace qtemp\form;
 use qtemp\control\ArrayValue;
 use qtemp\control\AnyToGet;
 use qtemp\form\FormValidator;
-include_once __DIR__ .'/_upload_multi_style.html';
+include_once __DIR__ . '/_upload_multi_style.html';
 /**
  * 多文件上传
  * 默认value接收字符串数组，filepath为数组元素值
@@ -28,17 +28,38 @@ class FileUploadMulti extends FormControl
      * @var array
      */
     protected $htmlclass = [];
-
-    protected $getFilepath = VALUE;
-    protected $getFilename = null;
-    protected $hasfilename = false;
-    protected $filetype = 'file';
     /**
-     * 构造函数
+     * 文件路径的变量名的方式
+     * @var string
      */
-    public function __construct()
+    protected $getFilepath = VALUE;
+    /**
+     * 文件文件名的变量名的方式
+     * @var string
+     */
+    protected $getFilename = null;
+    /**
+     * 是否显示文件名输入框
+     * @var bool
+     */
+    protected $hasfilename = false;
+    /**
+     * 文件类型
+     * @var string
+     */
+    protected $filetype = 'file';
+    protected function tempInit()
     {
-        parent::__construct();
+        if (empty($this->help_text)) {
+            if (!empty($this->max)) {
+                $this->help_text .= '最多上传' . $this->max . '个文件；';
+            }
+            if (!empty($this->min)) {
+                $this->help_text .= '最少上传' . $this->min . '个文件';
+            }
+            $this->help_text .= '<br>';
+            $this->help_text .= self::uploadSettingText($this->filetype, true);
+        }
     }
     protected function temp()
     {
@@ -95,11 +116,6 @@ class FileUploadMulti extends FormControl
                 <?php endif; ?>
             </ul>
             <a href="javascript:controlUploadMultiFile_<?= $name ?>();" class="btn btn-default">选择文件</a>
-            <p class="help-block">
-                <?php if (!empty($max)): ?>最多上传<?= $max ?>个文件；<?php endif; ?>
-                <?php if (!empty($min)): ?>最少上传<?= $min ?>个文件<?php endif; ?>
-            </p>
-            <?= $this->uploadSettingHelpText($this->filetype);?>
         </div>
         <script type="text/html" id="<?= $name ?>-files-item-tpl">
             <li id="<?= $name ?>-saved-file{id}">
@@ -108,7 +124,7 @@ class FileUploadMulti extends FormControl
                     <i class="fa fa-<?= $fa ?>"></i>
                 </div>
                 <?php if ($this->hasfilename): ?>
-                    <input type="text" class="form-control" style="width:200px" id="<?= $name ?>-file-{id}-name" name="<?= $name ?>_filename[]" value="{name}">
+                            <input type="text" class="form-control" style="width:200px" id="<?= $name ?>-file-{id}-name" name="<?= $name ?>_filename[]" value="{name}">
                 <?php endif; ?>
                 <a class="btn btn-default" href="javascript:uploadOne('文件上传','#<?= $name ?>-file-{id}','file');"><i class="fa fa-upload fa-fw"></i></a>
                 <a class="btn btn-danger" href="javascript:(function(){$('#<?= $name ?>-saved-file{id}').remove();checkFileCount_<?= $name ?>();})();"><i class="fa fa-trash fa-fw"></i></a>
