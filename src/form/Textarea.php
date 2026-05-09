@@ -34,7 +34,7 @@ class Textarea extends FormControl
             <?php if($this->minlength>0):?>minlength="<?= $this->minlength?>"<?php endif;?>
             <?php if($this->maxlength>0):?>maxlength="<?= $this->maxlength?>"<?php endif;?>
             <?php $this->ConfigData();?>
-        ><?= htmlspecialchars($this->value??'')?></textarea>
+        ><?= htmlspecialchars($this->value)?></textarea>
         <?php
     }
 }

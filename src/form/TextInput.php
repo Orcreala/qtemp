@@ -38,7 +38,7 @@ class TextInput extends FormControl{
             class="<?= join(' ', $this->htmlclass); ?>"
             id="<?= $this->name?>" 
             name="<?= $this->name?>"
-            <?php if (!empty($this->value)) { ?> value="<?= $this->value?>" <?php } ?>
+            <?php if ($this->value!==null&&$this->value!=='') { ?> value="<?= $this->value?>" <?php } ?>
             <?php $this->required_echo();?>
             <?php $this->disabled_echo();?>
             <?php $this->read_only_echo();?>
