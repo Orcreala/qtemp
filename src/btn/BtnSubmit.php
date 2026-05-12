@@ -1,6 +1,5 @@
 <?php 
 namespace qtemp\btn;
-include_once __DIR__ . '/_btn_script.html';
 /**
  * 提交按钮，会携带表单数据，若不设置action则使用表单的action，param必须有action才有效
  * @method $this msg(string $msg) 设置提示信息
@@ -37,9 +36,10 @@ class BtnSubmit extends Button
      */
     protected bool $refresh = true;
     
-    protected function tempInit(){
+    protected function tempInit():void{
+        include_once __DIR__ . '/_btn_script.html';
         $this->addHtmlclass(['js-ajax-submit']);
-        return parent::tempInit();
+        parent::tempInit(); 
     }
 
     protected function temp(){

@@ -3,7 +3,6 @@ namespace qtemp\form;
 use qtemp\control\ArrayValue;
 use qtemp\control\AnyToGet;
 use qtemp\form\FormValidator;
-include_once __DIR__ . '/_upload_multi_style.html';
 /**
  * 多文件上传
  * 默认value接收字符串数组，filepath为数组元素值
@@ -49,8 +48,9 @@ class FileUploadMulti extends FormControl
      * @var string
      */
     protected $filetype = 'file';
-    protected function tempInit()
+    protected function tempInit():void
     {
+        include_once __DIR__ . '/_upload_multi_style.html';
         if (empty($this->helpText)) {
             if (!empty($this->max)) {
                 $this->helpText .= '最多上传' . $this->max . '个文件；';
@@ -61,6 +61,7 @@ class FileUploadMulti extends FormControl
             $this->helpText .= '<br>';
             $this->helpText .= self::uploadSettingText($this->filetype, true);
         }
+        parent::tempInit();
     }
     protected function temp()
     {

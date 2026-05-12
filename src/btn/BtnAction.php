@@ -1,6 +1,5 @@
 <?php 
 namespace qtemp\btn;
-include_once __DIR__ . '/_btn_script.html';
 /**
  * 操作按钮，不会携带表单数据
  * @method $this msg(string $msg) 设置提示信息
@@ -30,9 +29,10 @@ class BtnAction extends Button
      * @var bool
      */
     protected bool $refresh = true;
-    protected function tempInit(){
+    protected function tempInit():void{
+        include_once __DIR__ . '/_btn_script.html';
         $this->addHtmlclass(['js-ajax-dialog-btn']);
-        return parent::tempInit();
+        parent::tempInit();
     }
     protected function temp(){
         ?>

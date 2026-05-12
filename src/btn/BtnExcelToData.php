@@ -1,6 +1,5 @@
 <?php
 namespace qtemp\btn;
-include_once __DIR__ . '/_xlsx_full_min.html';
 
 /**
  * Excel导入按钮，将上传的Excel文件转为数据向控制器请求
@@ -19,8 +18,10 @@ class BtnExcelToData extends Button
     protected array $column = [];
     protected bool $shiftFirst = false;
 
-    protected function tempInit(){
+    protected function tempInit():void{
+        include_once __DIR__ . '/_xlsx_full_min.html';
         $this->addHtmlclass(['import-excel-btn']);
+        parent::tempInit();
     }
     protected function temp()
     {

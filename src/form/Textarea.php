@@ -8,7 +8,7 @@ namespace qtemp\form;
  * @see FormControl
  * @author 莫耶尔
  */
-class Textarea extends FormControl
+class TextArea extends FormControl
 {
     /**
      * 最小长度

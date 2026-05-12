@@ -2,7 +2,6 @@
 namespace qtemp\form;
 use qtemp\control\Control;
 
-include_once __DIR__ . '/_head.html';
 
 
 /**
@@ -146,6 +145,14 @@ abstract class FormControl extends Control
         <?php
     }
 
+    /**
+     * 输出
+     */
+    protected function tempInit():void
+    {
+        include_once __DIR__ . '/_head.html';
+        parent::tempInit();
+    }
     public function echo(): void
     {
         if ($this->group) {
@@ -154,9 +161,9 @@ abstract class FormControl extends Control
         } else {
             parent::echo();
             if (!empty($this->helpText)) { ?>
-            <div class="help-block">
+            <p class="help-block">
                 <?= $this->helpText ?>
-            </div>
+            </p>
             <?php } 
         }
     }

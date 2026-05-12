@@ -28,7 +28,7 @@ abstract class Control extends \qtemp\Qtemp
     /**
      * 组件输出前的初始化
      */
-    protected function tempInit(){
+    protected function tempInit():void{
     }
     /**
      * 组件输出

@@ -1,6 +1,5 @@
 <?php
 namespace qtemp\btn;
-include_once __DIR__ . '/_openLayer.html';
 /**
  * 跳转按钮
  * @method $this layer(string $title='',string $width='80%',string $height='80%') 是否开启弹窗
@@ -30,6 +29,11 @@ class BtnTarget extends Button
     protected string $width = '';
     protected string $title = '';
     protected string $target = '_self';
+
+    protected function tempInit():void{
+        include_once __DIR__ . '/_openLayer.html';
+        parent::tempInit();
+    }
 
     protected function temp()
     {

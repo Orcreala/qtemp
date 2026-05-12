@@ -4,7 +4,6 @@ use qtemp\btn\BtnAction;
 use qtemp\btn\BtnTarget;
 use qtemp\btn\Button;
 
-include_once __DIR__ .'/_table_style.html';
 /**
  * 仅有基础功能的表格，相对更适合展示已经为适合展示的形式的数据
  * @method $this list(array $list) 列表
@@ -89,12 +88,19 @@ class TableMin extends Control
     {
         return ($this->edit || $this->delete || count($this->actionButton) > 0) && $this->autoAction;
     }
+
+    protected function tempInit():void
+    {
+        include_once __DIR__ . '/_table_style.html';
+        parent::tempInit();
+    }
+
     protected function temp()
     {
         if ($this->check) {
             $this->addHtmlclass('js-check-wrap');
         }
-        if($this->listOrder){
+        if ($this->listOrder) {
             $this->addHtmlclass('table-list');
         }
         if ($this->needAutoAction()) {
@@ -117,9 +123,7 @@ class TableMin extends Control
             }
         }
         ?>
-        <table class="<?= join(' ', $this->htmlclass); ?>"
-            <?php $this->ConfigData();?>
-        >
+        <table class="<?= join(' ', $this->htmlclass); ?>" <?php $this->ConfigData(); ?>>
             <thead>
                 <tr>
                     <?php if ($this->check): ?>
@@ -129,29 +133,29 @@ class TableMin extends Control
                             </label>
                         </th>
                     <?php endif; ?>
-                    <?php if($this->listOrder): ?>
+                    <?php if ($this->listOrder): ?>
                         <th width="50">排序</th>
                     <?php endif; ?>
-                    <?php foreach ($this->column as $key => $column): 
+                    <?php foreach ($this->column as $key => $column):
                         $keyarr = explode(':', $key);
-                        $title=reset($keyarr);
-                        $width=null;
-                        if(count($keyarr)==2){
+                        $title = reset($keyarr);
+                        $width = null;
+                        if (count($keyarr) == 2) {
                             $width = end($keyarr);
                         }
-                    ?>
-                        <th <?php if($width):?>width="<?= $width ?>"<?php endif;?>><?= $title ?></th>
+                        ?>
+                        <th <?php if ($width): ?>width="<?= $width ?>" <?php endif; ?>><?= $title ?></th>
                     <?php endforeach; ?>
                     <?php if ($this->needAutoAction()): ?>
                         <th width="<?php
-                            $width=8;
-                            foreach ($this->actionButton as $button){
-                                $width+=strlen($button->text)*6+8;
-                                if($button->fa){
-                                    $width+=10;
-                                }
+                        $width = 8;
+                        foreach ($this->actionButton as $button) {
+                            $width += strlen($button->text) * 6 + 8;
+                            if ($button->fa) {
+                                $width += 10;
                             }
-                            echo $width;?>">操作</th>
+                        }
+                        echo $width; ?>">操作</th>
                     <?php endif; ?>
                 </tr>
             </thead>
@@ -166,11 +170,11 @@ class TableMin extends Control
                                     title="ID:<?= $item[$this->primary] ?>">
                             </td>
                         <?php endif; ?>
-                        <?php if($this->listOrder): ?>
+                        <?php if ($this->listOrder): ?>
                             <td>
-                                <input class="input-order" name="<?= 
-                                $this->listOrder ?>s[<?= $item[$this->primary] ?>]" 
-                                value="<?= $item[$this->listOrder]??1000 ?>">
+                                <input class="input-order" name="<?=
+                                    $this->listOrder ?>s[<?= $item[$this->primary] ?>]"
+                                    value="<?= $item[$this->listOrder] ?? 1000 ?>">
                             </td>
                         <?php endif; ?>
                         <?php foreach ($this->column as $key => $column): ?>
@@ -197,13 +201,13 @@ class TableMin extends Control
                             </label>
                         </th>
                     <?php endif; ?>
-                    <?php if($this->listOrder): ?>
+                    <?php if ($this->listOrder): ?>
                         <th width="50">排序</th>
                     <?php endif; ?>
-                    <?php foreach ($this->column as $key => $column): 
+                    <?php foreach ($this->column as $key => $column):
                         $keyarr = explode(':', $key);
-                        $title=reset($keyarr);
-                    ?>
+                        $title = reset($keyarr);
+                        ?>
                         <th><?= $title ?></th>
                     <?php endforeach; ?>
                     <?php if ($this->needAutoAction()): ?>

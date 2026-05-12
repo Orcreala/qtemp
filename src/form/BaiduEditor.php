@@ -1,15 +1,15 @@
 <?php 
 namespace qtemp\form;
-include_once __DIR__ .'/_baidu.html';
 /**
  * 百度编辑器
  * @author 莫耶尔
  * @see FormControl
  */
 class BaiduEditor extends FormControl{
-
-
-
+    protected function tempInit():void{
+        include_once __DIR__ .'/_baidu.html';
+        parent::tempInit();
+    }
     protected function temp(){
         ?>
         <script type="text/plain" 

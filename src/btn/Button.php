@@ -71,7 +71,7 @@ abstract class Button extends \qtemp\control\Control
         }
         return parent::__construct();
     }
-    protected function tempInit()
+    protected function tempInit():void
     {
         if ($this->btnclass) {
             $this->addHtmlclass("btn-{$this->btnclass}");
@@ -79,5 +79,6 @@ abstract class Button extends \qtemp\control\Control
         if ($this->size) {
             $this->addHtmlclass("btn-{$this->size}");
         }
+        parent::tempInit();
     }
 }
