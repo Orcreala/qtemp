@@ -6,7 +6,7 @@ namespace qtemp;
  */
 abstract class Qtemp
 {
-    /**
+    /*
      * 构造函数，目前作占位符防止子类调用parent::__construct()出错
      */
     public function __construct()

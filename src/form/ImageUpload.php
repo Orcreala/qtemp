@@ -26,7 +26,7 @@ class ImageUpload extends FormControl
     protected $default_src;
     protected $hasfilename=false;
     protected $filename="";
-    /**
+    /*
      * 构造函数
      */
     public function __construct()

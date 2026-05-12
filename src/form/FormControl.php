@@ -136,9 +136,9 @@ abstract class FormControl extends Control
             <div class="col-md-6 col-sm-10">
                 <?php $this->temp(); ?>
                 <?php if (!empty($this->helpText)) { ?>
-                <div class="help-block">
+                <p class="help-block">
                     <?= $this->helpText ?>
-                </div>
+                </p>
                 <?php } ?>
             </div>
         </div>
