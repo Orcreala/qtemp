@@ -10,7 +10,7 @@ use qtemp\btn\Button;
  * @method $this column(array $column) 列,key为表头，value为数据获取方式(value可为一个回调函数，参数为此条数据)
  * @method $this addColumn(array $column) 添加列,key为表头，value为数据获取方式(value可为一个回调函数，参数为此条数据)
  * @method $this actionButton(array $actionButton) 操作栏按钮，显示在操作栏的按钮将自动执行addParam([$this->primary => $item[$this->primary]])
- * @method $this addActionButton(array|actionButton) 添加操作栏按钮，显示在操作栏的按钮将自动执行addParam([$this->primary => $item[$this->primary]])
+ * @method $this addActionButton(array|BtnAction) 添加操作栏按钮，显示在操作栏的按钮将自动执行addParam([$this->primary => $item[$this->primary]])
  * @method $this primary(string $primary) 主键，用于自动生成编辑和删除按钮
  * @method $this check(bool $check=true) 是否有选择
  * @method $this listOrder(string $listOrder) 排序的字段，若为空则不自动生成排序按钮
